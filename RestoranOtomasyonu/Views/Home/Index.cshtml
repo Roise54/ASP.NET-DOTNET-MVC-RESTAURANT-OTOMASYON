@@ -1,0 +1,131 @@
+﻿@model dynamic
+
+@{
+    ViewData["Title"] = "Ana Sayfa";
+}
+
+<div class="text-center mb-5 hero-section">
+    <div class="hero-content">
+        <h1 class="display-4 mb-4">
+            <i class="fas fa-fire text-success me-2"></i>
+            ANADOLU KEBAP
+        </h1>
+        <p class="lead mb-4">Geleneksel Lezzetler</p>
+        <div class="hero-badges mb-4">
+            <span class="badge bg-success me-2"><i class="fas fa-pepper-hot me-1"></i>Özel Baharatlar</span>
+            <span class="badge bg-success me-2"><i class="fas fa-award me-1"></i>Taze Et</span>
+            <span class="badge bg-success"><i class="fas fa-clock me-1"></i>Hızlı Servis</span>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="section-title text-center mb-5">
+        <h2><i class="fas fa-utensils me-2"></i>SİPARİŞ VER</h2>
+        <p class="text-muted">Lezzetli yemeklerimizi hemen sipariş edin</p>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-md-6 mx-auto">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title mb-4">Yeni Sipariş</h5>
+                    <a href="@Url.Action("Create", "Order")" class="btn btn-success btn-lg">
+                        <i class="fas fa-plus me-2"></i>
+                        Sipariş Oluştur
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-title text-center mb-5">
+        <h2><i class="fas fa-cogs me-2"></i>YÖNETİM</h2>
+        <p class="text-muted">Restoran yönetim araçlarına hızlı erişim</p>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <i class="fas fa-utensils fa-3x text-success"></i>
+                    </div>
+                    <h5 class="card-title">MENÜ YÖNETİMİ</h5>
+                    <p class="card-text">Ürünleri ve kategorileri kolayca yönetin.</p>
+                    <a href="@Url.Action("Index", "Product")" class="btn btn-success">
+                        MENÜYÜ YÖNET
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <i class="fas fa-clipboard-list fa-3x text-success"></i>
+                    </div>
+                    <h5 class="card-title">SİPARİŞLER</h5>
+                    <p class="card-text">Tüm siparişleri tek bir yerden takip edin.</p>
+                    <a href="@Url.Action("Index", "Order")" class="btn btn-success">
+                        SİPARİŞLERİ GÖRÜNTÜLE
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <i class="fas fa-tags fa-3x text-success"></i>
+                    </div>
+                    <h5 class="card-title">KATEGORİLER</h5>
+                    <p class="card-text">Menü kategorilerini düzenleyin.</p>
+                    <a href="@Url.Action("Index", "Category")" class="btn btn-success">
+                        KATEGORİLERİ YÖNET
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hero section animasyonu
+            const heroContent = document.querySelector('.hero-content');
+            heroContent.style.opacity = '0';
+            heroContent.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                heroContent.style.transition = 'all 1s ease';
+                heroContent.style.opacity = '1';
+                heroContent.style.transform = 'translateY(0)';
+            }, 300);
+
+            // Kartlar için animasyon
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100 + 500);
+            });
+
+            // Badge'ler için animasyon
+            const badges = document.querySelectorAll('.badge');
+            badges.forEach((badge, index) => {
+                badge.style.opacity = '0';
+                badge.style.transform = 'scale(0.8)';
+                setTimeout(() => {
+                    badge.style.transition = 'all 0.3s ease';
+                    badge.style.opacity = '1';
+                    badge.style.transform = 'scale(1)';
+                }, index * 200 + 800);
+            });
+        });
+    </script>
+}

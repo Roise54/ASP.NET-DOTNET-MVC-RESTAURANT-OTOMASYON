@@ -1,0 +1,243 @@
+@model RestoranOtomasyonu.Models.Order
+
+@{
+    ViewData["Title"] = "Sipariş Detayları";
+    var products = ViewBag.Products as List<RestoranOtomasyonu.Models.Product>;
+    var groupedProducts = products?.GroupBy(p => p.Category).ToList() ?? new List<IGrouping<RestoranOtomasyonu.Models.Category, RestoranOtomasyonu.Models.Product>>();
+}
+
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>
+            <i class="fas fa-receipt text-success me-2"></i>Sipariş Detayları
+        </h2>
+        <div>
+            <a asp-action="Index" class="btn btn-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Geri
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-info-circle me-2"></i>Sipariş Bilgileri
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-5">Sipariş No:</dt>
+                        <dd class="col-sm-7">#@Model.Id</dd>
+
+                        <dt class="col-sm-5">Masa No:</dt>
+                        <dd class="col-sm-7">@Model.TableNumber</dd>
+
+                        @if (!string.IsNullOrEmpty(Model.CustomerName))
+                        {
+                            <dt class="col-sm-5">Müşteri:</dt>
+                            <dd class="col-sm-7">@Model.CustomerName</dd>
+                        }
+
+                        @if (!string.IsNullOrEmpty(Model.PhoneNumber))
+                        {
+                            <dt class="col-sm-5">Telefon:</dt>
+                            <dd class="col-sm-7">@Model.PhoneNumber</dd>
+                        }
+
+                        <dt class="col-sm-5">Tarih:</dt>
+                        <dd class="col-sm-7">@Model.OrderDate.ToString("dd.MM.yyyy HH:mm")</dd>
+
+                        <dt class="col-sm-5">Durum:</dt>
+                        <dd class="col-sm-7">
+                            @switch (Model.Status)
+                            {
+                                case OrderStatus.Preparing:
+                                    <span class="badge bg-warning">Hazırlanıyor</span>
+                                    break;
+                                case OrderStatus.Ready:
+                                    <span class="badge bg-success">Hazır</span>
+                                    break;
+                                case OrderStatus.Completed:
+                                    <span class="badge bg-secondary">Tamamlandı</span>
+                                    break;
+                                case OrderStatus.Cancelled:
+                                    <span class="badge bg-danger">İptal Edildi</span>
+                                    break;
+                            }
+                        </dd>
+
+                        <dt class="col-sm-5">Toplam:</dt>
+                        <dd class="col-sm-7">
+                            <strong class="text-success">@Model.TotalAmount.ToString("C2")</strong>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+
+            @if (Model.Status != OrderStatus.Completed && Model.Status != OrderStatus.Cancelled)
+            {
+                <div class="card mt-3">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-tasks me-2"></i>İşlemler
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="UpdateStatus" method="post" class="mb-2">
+                            <input type="hidden" name="orderId" value="@Model.Id" />
+                            @if (Model.Status == OrderStatus.Preparing)
+                            {
+                                <button type="submit" name="status" value="@OrderStatus.Ready" class="btn btn-success w-100 mb-2">
+                                    <i class="fas fa-check me-2"></i>Hazır
+                                </button>
+                            }
+                            else if (Model.Status == OrderStatus.Ready)
+                            {
+                                <button type="submit" name="status" value="@OrderStatus.Completed" class="btn btn-success w-100 mb-2">
+                                    <i class="fas fa-check-double me-2"></i>Tamamla
+                                </button>
+                            }
+                            <button type="submit" name="status" value="@OrderStatus.Cancelled" class="btn btn-danger w-100">
+                                <i class="fas fa-times me-2"></i>İptal Et
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-utensils me-2"></i>Sipariş Detayları
+                    </h5>
+                </div>
+                <div class="card-body">
+                    @if (Model.OrderItems.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Ürün</th>
+                                        <th>Kategori</th>
+                                        <th class="text-center">Adet</th>
+                                        <th class="text-end">Birim Fiyat</th>
+                                        <th class="text-end">Toplam</th>
+                                        @if (Model.Status == OrderStatus.Preparing)
+                                        {
+                                            <th></th>
+                                        }
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.OrderItems)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @item.Product?.Name
+                                                @if (item.Product?.IsSpicy == true)
+                                                {
+                                                    <i class="fas fa-pepper-hot text-danger ms-2"></i>
+                                                }
+                                            </td>
+                                            <td>@item.Product?.Category?.Name</td>
+                                            <td class="text-center">@item.Quantity</td>
+                                            <td class="text-end">@item.UnitPrice.ToString("C2")</td>
+                                            <td class="text-end">@((item.Quantity * item.UnitPrice).ToString("C2"))</td>
+                                            @if (Model.Status == OrderStatus.Preparing)
+                                            {
+                                                <td class="text-end">
+                                                    <form asp-action="RemoveItem" method="post" style="display: inline;">
+                                                        <input type="hidden" name="orderId" value="@Model.Id" />
+                                                        <input type="hidden" name="orderItemId" value="@item.Id" />
+                                                        <button type="submit" class="btn btn-sm btn-danger">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            }
+                                        </tr>
+                                    }
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="@(Model.Status == OrderStatus.Preparing ? 4 : 3)" class="text-end">
+                                            <strong>Toplam:</strong>
+                                        </td>
+                                        <td class="text-end">
+                                            <strong class="text-success">@Model.TotalAmount.ToString("C2")</strong>
+                                        </td>
+                                        @if (Model.Status == OrderStatus.Preparing)
+                                        {
+                                            <td></td>
+                                        }
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center text-muted">
+                            <p>Henüz ürün eklenmemiş.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            @if (Model.Status == OrderStatus.Preparing)
+            {
+                <div class="card mt-4">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-plus me-2"></i>Ürün Ekle
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="AddItem" method="post">
+                            <input type="hidden" name="orderId" value="@Model.Id" />
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <select name="productId" class="form-select" required>
+                                        <option value="">Ürün Seçin</option>
+                                        @foreach (var category in groupedProducts)
+                                        {
+                                            <optgroup label="@category.Key?.Name">
+                                                @foreach (var product in category)
+                                                {
+                                                    <option value="@product.Id">
+                                                        @product.Name (@product.Price.ToString("C2"))
+                                                        @if (product.IsSpicy)
+                                                        {
+                                                            <text>🌶️</text>
+                                                        }
+                                                    </option>
+                                                }
+                                            </optgroup>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="number" name="quantity" class="form-control" value="1" min="1" max="10" required />
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="submit" class="btn btn-success w-100">
+                                        <i class="fas fa-plus me-2"></i>Ekle
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 

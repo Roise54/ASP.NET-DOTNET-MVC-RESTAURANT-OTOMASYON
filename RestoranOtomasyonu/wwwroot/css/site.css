@@ -1,0 +1,305 @@
+:root {
+    --cyber-primary: #ff4d4d;
+    --cyber-secondary: #ff9100;
+    --cyber-bg: #1a0f0f;
+    --cyber-bg-dark: #0f0808;
+    --cyber-text: #ffffff;
+    --cyber-accent: #ff6b6b;
+    --cyber-hover: #ffb700;
+    --cyber-border: rgba(255, 77, 77, 0.1);
+}
+
+body {
+    font-family: 'Orbitron', sans-serif;
+    background-color: var(--cyber-bg);
+    color: var(--cyber-text);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+.cyber-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, var(--cyber-bg-dark) 25%, transparent 25%), linear-gradient(-45deg, var(--cyber-bg-dark) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, var(--cyber-bg-dark) 75%), linear-gradient(-45deg, transparent 75%, var(--cyber-bg-dark) 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+    opacity: 0.05;
+    z-index: -1;
+}
+
+.cyber-nav {
+    background: var(--cyber-bg-dark);
+    border-bottom: 2px solid var(--cyber-border);
+    box-shadow: 0 4px 30px rgba(255, 77, 77, 0.1);
+    backdrop-filter: blur(10px);
+    margin-bottom: 2rem;
+    padding: 1rem 0;
+}
+
+.cyber-brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--cyber-primary) !important;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px rgba(255, 77, 77, 0.5);
+    transition: all 0.3s ease;
+}
+
+.cyber-brand:hover {
+    color: var(--cyber-hover) !important;
+    text-shadow: 0 0 20px rgba(255, 183, 0, 0.8);
+}
+
+.cyber-icon {
+    color: var(--cyber-accent);
+    filter: drop-shadow(0 0 5px var(--cyber-accent));
+}
+
+.cyber-link {
+    color: var(--cyber-text) !important;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    position: relative;
+    padding: 0.5rem 1rem !important;
+    transition: all 0.3s ease;
+}
+
+.cyber-link::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--cyber-primary);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+}
+
+.cyber-link:hover {
+    color: var(--cyber-primary) !important;
+}
+
+.cyber-link:hover::before {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+.card {
+    background: var(--cyber-bg-dark);
+    border: 1px solid var(--cyber-border);
+    border-radius: 10px;
+    box-shadow: 0 8px 32px rgba(255, 77, 77, 0.1);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(255, 77, 77, 0.2);
+}
+
+.card-header {
+    background: linear-gradient(45deg, var(--cyber-bg-dark), rgba(255, 77, 77, 0.1));
+    border-bottom: 1px solid var(--cyber-border);
+    color: var(--cyber-primary);
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.btn {
+    font-family: 'Orbitron', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.btn-success {
+    background: var(--cyber-primary) !important;
+    border-color: var(--cyber-primary) !important;
+    color: var(--cyber-bg) !important;
+    font-weight: 600;
+}
+
+.btn-success:hover {
+    background: var(--cyber-hover) !important;
+    border-color: var(--cyber-hover) !important;
+    box-shadow: 0 0 20px rgba(255, 183, 0, 0.4);
+}
+
+.btn-danger {
+    background: var(--cyber-secondary) !important;
+    border-color: var(--cyber-secondary) !important;
+}
+
+.btn-danger:hover {
+    background: #ffaa33 !important;
+    border-color: #ffaa33 !important;
+    box-shadow: 0 0 20px rgba(255, 145, 0, 0.4);
+}
+
+.table {
+    color: var(--cyber-text);
+}
+
+.table th {
+    background: var(--cyber-bg-dark);
+    color: var(--cyber-primary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+    border-color: var(--cyber-border);
+}
+
+.table td {
+    border-color: var(--cyber-border);
+}
+
+.form-control {
+    background: rgba(26, 15, 15, 0.8);
+    border: 1px solid var(--cyber-border);
+    color: var(--cyber-text);
+    font-family: 'Orbitron', sans-serif;
+}
+
+.form-control:focus {
+    background: rgba(26, 15, 15, 0.9);
+    border-color: var(--cyber-primary);
+    box-shadow: 0 0 10px rgba(255, 77, 77, 0.2);
+    color: var(--cyber-text);
+}
+
+.form-select {
+    background-color: rgba(26, 15, 15, 0.8);
+    border: 1px solid var(--cyber-border);
+    color: var(--cyber-text);
+    font-family: 'Orbitron', sans-serif;
+}
+
+.form-select:focus {
+    background-color: rgba(26, 15, 15, 0.9);
+    border-color: var(--cyber-primary);
+    box-shadow: 0 0 10px rgba(255, 77, 77, 0.2);
+    color: var(--cyber-text);
+}
+
+.badge {
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 1px;
+    padding: 0.5em 1em;
+}
+
+.badge.bg-success {
+    background: var(--cyber-primary) !important;
+    color: var(--cyber-bg);
+}
+
+.badge.bg-warning {
+    background: var(--cyber-hover) !important;
+    color: var(--cyber-bg);
+}
+
+.badge.bg-danger {
+    background: var(--cyber-secondary) !important;
+}
+
+.text-success {
+    color: var(--cyber-primary) !important;
+}
+
+.text-danger {
+    color: var(--cyber-secondary) !important;
+}
+
+.alert {
+    background: rgba(26, 15, 15, 0.8);
+    border: 1px solid var(--cyber-border);
+    backdrop-filter: blur(10px);
+}
+
+.alert-danger {
+    border-color: var(--cyber-secondary);
+    color: var(--cyber-secondary);
+}
+
+
+/* Animasyonlar */
+
+@keyframes glow {
+    0% {
+        box-shadow: 0 0 5px var(--cyber-primary);
+    }
+    50% {
+        box-shadow: 0 0 20px var(--cyber-primary);
+    }
+    100% {
+        box-shadow: 0 0 5px var(--cyber-primary);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+/* Özel Efektler */
+
+.cyber-glow {
+    animation: glow 2s infinite;
+}
+
+.cyber-pulse {
+    animation: pulse 2s infinite;
+}
+
+
+/* Responsive Tasarım */
+
+@media (max-width: 768px) {
+    .cyber-brand {
+        font-size: 1.2rem;
+    }
+    .cyber-link {
+        font-size: 0.8rem;
+    }
+    .card {
+        margin-bottom: 1rem;
+    }
+}
+
+
+/* Scrollbar Tasarımı */
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--cyber-bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--cyber-primary);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--cyber-hover);
+}
